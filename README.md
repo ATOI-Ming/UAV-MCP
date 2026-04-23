@@ -116,27 +116,74 @@ pip install mcp numpy matplotlib Pillow
 
 ### 3. 配置 MCP 客户端
 
-在 Claude Desktop 的 `claude_desktop_config.json` 中添加：
+根据你使用的客户端，选择对应的配置方式：
+
+#### 方式一：Qoder IDE
+
+找到并编辑 MCP 配置文件：
+
+```
+C:\Users\<你的用户名>\AppData\Roaming\Qoder\SharedClientCache\mcp.json
+```
+
+在 `mcpServers` 中添加以下内容：
+
+```json
+"uav-mcp-server": {
+  "timeout": 60,
+  "type": "stdio",
+  "command": "D:\\Anaconda3\\python.exe",
+  "args": [
+    "i:\\UAV\\UAV-MCP\\server.py"
+  ],
+  "env": {},
+  "disabled": false
+}
+```
+
+> **注意**：
+> - `command` 填写你的 Python 解释器完整路径（推荐 Anaconda 环境）
+> - `args` 填写 `server.py` 的实际绝对路径
+> - `disabled` 必须设为 `false` 才会生效
+
+#### 方式二：Claude Desktop
+
+找到并编辑：
+
+```
+C:\Users\<你的用户名>\AppData\Roaming\Claude\claude_desktop_config.json
+```
+
+添加：
 
 ```json
 {
   "mcpServers": {
-    "uav-mcp": {
-      "command": "python",
+    "uav-mcp-server": {
+      "command": "D:\\Anaconda3\\python.exe",
       "args": ["i:\\UAV\\UAV-MCP\\server.py"]
     }
   }
 }
 ```
 
-> 请将路径替换为你的实际项目路径。
+#### 方式三：其他支持 MCP 的客户端
 
-### 4. 启动服务器
+配置 stdio 类型服务器，命令为：
 
-```bash
-cd i:\UAV\UAV-MCP
-python server.py
 ```
+D:\Anaconda3\python.exe i:\UAV\UAV-MCP\server.py
+```
+
+### 4. 验证安装
+
+修改配置后重启 MCP 客户端，在对话中输入：
+
+```
+获取无人机当前状态
+```
+
+如果返回位置信息（起点 5,5,0），说明连接成功。
 
 ---
 
